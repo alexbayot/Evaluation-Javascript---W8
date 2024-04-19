@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello,<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
