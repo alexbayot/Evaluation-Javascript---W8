@@ -17,19 +17,19 @@
     <div class="user-info">
       <div class="form">
         <label for="prenom">Prénom</label>
-        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+        <input type="text" id="prenom" placeholder="Par ex : Olivier" class="required">
       </div>
       <div class="form">
-        <label for="age">Quand êtes-vous né.e ?</label>
-        <input type="date" id="age">
+        <label for="age" >Quand êtes-vous né.e ?</label>
+        <input type="date" id="age" class="required">
       </div>
       <div class="form">
         <label for="poids">Quel est votre poids (en kg) ?</label>
-        <input type="number" id="poids" placeholder="Par ex : 53,40 kg">
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg" class="required"> 
       </div>
       <div class="form">
         <label for="taille">Quel est votre taille (en cm) ?</label>
-        <input type="number" id="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89" class="required">
       </div>
       <button type="button" class="launch">Envoyer</button>
       <div class="message"> </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="myapp">
       <!-- Ici vous injectez prénom + âge -->
-      <h1>Hello,<span></span><sup></sup></h1>
+      <h1>Hello<span></span><sup></sup></h1>
       <!-- La boite pour faire apparaître le BMI -->
       <div class="weight">
         <div class="bmi">

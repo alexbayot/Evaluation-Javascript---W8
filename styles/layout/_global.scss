@@ -58,6 +58,13 @@ p {
     
   }
 }
+.required {
+  border: 1px solid lightgray; /* Default border color */
+}
+
+.required.error {
+  border-color: red; /* Highlight color for unfilled fields */
+}
 .welcome .reset, .main .reset {
   background:darkslategray;
   color:#fff;
