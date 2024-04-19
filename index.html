@@ -62,16 +62,57 @@
           <div class="kg-container">
             <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
           </div>
-           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="new-weight" id="addDataBtn">Envoyer</button>
            <button type="button" class="reset">Remettre à 0</button>
            <div class="message"></div>
         </div>
       </div>
       <div class="chart">
         <!-- Insérez ici votre Chart.js -->
+        <canvas id="myChart"></canvas>
       </div>
     </div>
   </div>
   <script src="scripts/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+        datasets: [{
+          label: 'W8',
+          data: [],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+        scales: {
+          y: {
+            ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(newWeightInput) {
+                        return '$' + value;
+                    }
+                }
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>

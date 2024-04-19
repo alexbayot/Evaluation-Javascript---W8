@@ -5,7 +5,7 @@ let poidsInput = document.getElementById('poids');
 let tailleInput = document.getElementById('taille');
 let popup = document.querySelector('.welcome')
 let message = document.querySelector('.message')
-let dailyWeight = document.querySelector('.daily-weigh')
+let dailyWeight = document.querySelector('.daily-weight')
 let filter = document.querySelector('.filter');
 let prenomInput = document.getElementById('prenom'); 
 let ageInput = document.getElementById('age'); 
@@ -42,13 +42,41 @@ function loadUserInfo() {
         tailleInput.value = userInfo.taille;
     }
 }
-  // Load user info when the page loads
-  loadUserInfo();
+// Function to highlight unfilled fields in red and display error messages
+function highlightEmptyFields() {
+    if (!prenomInput.value) {
+        prenomInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre prenom`;
+    } else {
+        prenomInput.classList.remove('error');
+    }
+    if (!ageInput.value) {
+        ageInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre age`;
+    } else {
+        ageInput.classList.remove('error');
+    }
+    if (!poidsInput.value) {
+        poidsInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre poids`;
+    } else {
+        poidsInput.classList.remove('error');
+    }
+    if (!tailleInput.value) {
+        tailleInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre taille`;
+    } else {
+        tailleInput.classList.remove('error');
+    }
+}
 
-  // Open the popup only if there's no previous information
-  if (!userInfoExists()) {
-      popup.style.display = "none";
-  }
+// Load user info when the page loads
+loadUserInfo();
+
+// Open the popup only if there's no previous information
+if (!userInfoExists()) {
+    popup.style.display = "block";
+}
 
 // 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
 
@@ -116,9 +144,16 @@ btn.addEventListener('click', function() {
         // Add weight to the last-weight span
         lastWeightSpan.textContent = `${poidsInput.value} kg`;
     } else {
-        
         highlightEmptyFields();
     }
+});
+
+// Event listener for the reset button
+resetButton.addEventListener('click', function() {
+    // Clear local storage
+    localStorage.clear();
+    // Reload the page
+    location.reload();
 });
 
 // Event listener for the new-weight-input field
@@ -165,43 +200,3 @@ newWeightInput.addEventListener('input', function() {
     }
 });
 
-// Function to highlight unfilled fields in red
-function highlightEmptyFields() {
-    if (!prenomInput.value) {
-        prenomInput.classList.add('error');
-        message.innerHTML = `Merci de renseigner votre prenom`;
-    } else {
-        prenomInput.classList.remove('error');
-    }
-    if (!ageInput.value) {
-        ageInput.classList.add('error');
-        message.innerHTML = `Merci de renseigner votre age`;
-    } else {
-        ageInput.classList.remove('error');
-    }
-    if (!poidsInput.value) {
-        poidsInput.classList.add('error');
-        message.innerHTML = `Merci de renseigner votre poids`;
-    } else {
-        poidsInput.classList.remove('error');
-    }
-    if (!tailleInput.value) {
-        tailleInput.classList.add('error');
-        message.innerHTML = `Merci de renseigner votre taille`;
-    } else {
-        tailleInput.classList.remove('error');
-    }
-}
-
-
-
-  // Event listener for the reset button
-  resetButton.addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
-    // Reload the page
-    location.reload();
-});
-
-// Load user info when the page loads
-loadUserInfo();

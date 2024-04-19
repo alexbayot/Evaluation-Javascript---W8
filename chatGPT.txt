@@ -1,0 +1,4988 @@
+
+
+User
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.bmi')
+let btn = document.querySelector('button')
+let poids = document.querySelector('.poids')
+let taille = document.querySelector('.taille')
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+function imc (poids, taille){
+    if (parseInt(poids.value/taille.value^2) > 18.5){
+        result.innerHTML = "Maigreur"
+    } else if (parseInt(poids.value/taille.value^2) <= 18.5){
+        result.innerHTML = "Normal"
+    } else if (parseInt(poids.value/taille.value^2) <= 25){
+        result.innerHTML = "Surpoids"
+    } else if (parseInt(poids.value/taille.value^2) <= 30){
+        result.innerHTML = "Obésité"
+    } else (parseInt(poids.value/taille.value^2) <= 40)
+        result.innerHTML = "Obésité morbide"
+    }
+
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+btn.addEventListener ('click', function (){
+    imc (poids, taille)
+})
+
+ChatGPT
+It seems like you're trying to calculate the Body Mass Index (BMI) using JavaScript. There are a couple of issues in your code:
+
+In the imc function, the calculation of BMI isn't correct. You're using the bitwise XOR operator (^) instead of multiplication (*). Also, you need to wrap the formula in parentheses to ensure correct precedence of operations.
+The conditions in the if statements are not properly set. They should be in descending order, as BMI ranges go from high to low.
+Here's the corrected version of your code:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.bmi');
+let btn = document.querySelector('button');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        result.innerHTML = "Obésité morbide";
+    } else if (bmi > 30) {
+        result.innerHTML = "Obésité";
+    } else if (bmi > 25) {
+        result.innerHTML = "Surpoids";
+    } else if (bmi > 18.5) {
+        result.innerHTML = "Normal";
+    } else {
+        result.innerHTML = "Maigreur";
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+btn.addEventListener('click', function() {
+    imc(poids, taille);
+});
+In this version, I've fixed the BMI calculation and adjusted the conditions for BMI ranges. Also, I've converted the height to meters in the BMI calculation, assuming the input for height is in centimeters.
+
+User
+Make button functional  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello,<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To make the button functional in your HTML file, you need to add an event listener to it in your JavaScript file (main.js). Here's how you can do it:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi');
+let btn = document.querySelector('.launch');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+btn.addEventListener('click', function() {
+    let bmiResult = imc(poids, taille);
+    result.textContent = bmiResult;
+});
+Make sure this JavaScript code is in your main.js file and is included after your HTML in your HTML file. This script will calculate the BMI when the button with the class launch is clicked and display the result in the element with the class my-bmi.
+
+User
+the button dooesnt work
+ChatGPT
+If the button isn't working, there could be a few reasons:
+
+Script Loading: Ensure that your JavaScript file (main.js) is properly linked in your HTML file and that there are no errors in the browser console related to loading the script.
+Button Selector: Double-check that the selector for the button in your JavaScript matches the class of your button in your HTML. In this case, it should be .launch.
+Event Listener: Verify that the event listener is properly attached to the button and that there are no errors in the browser console related to attaching the event listener.
+Function Execution: Check if there are any errors occurring within the imc function or any variables that might be undefined or null.
+Here's a checklist to troubleshoot:
+
+Ensure that there are no JavaScript errors in the console.
+Verify that main.js is properly linked in your HTML.
+Confirm that the button has the class launch in your HTML.
+Double-check the spelling and capitalization of class names and function names.
+Make sure that the imc function is working correctly and returning the expected values.
+If you've checked these points and the button still doesn't work, let me know, and we can further investigate.
+
+User
+still not working
+ChatGPT
+Let's troubleshoot this step by step:
+
+Check for JavaScript Errors: Open your browser's developer tools (usually by pressing F12 or right-clicking on the page and selecting "Inspect"), go to the "Console" tab, and check if there are any error messages when you click the button.
+Verify Script Inclusion: In your HTML file, ensure that the <script src="scripts/main.js"></script> tag is placed just before the closing </body> tag and that the path to your JavaScript file is correct.
+Ensure Button is Present: Verify that the button with the class launch exists in your HTML code.
+Inspect Event Listener: Double-check that the event listener is attached to the button correctly and that it's targeting the correct button class.
+Check Function Execution: Test the imc function separately by calling it with some sample values and logging the result to the console to see if it's returning the expected output.
+Debugging: Insert console.log statements inside the event listener and imc function to see if they are being executed and to check the values of variables at different points.
+Here's an example of how you can debug the event listener:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    let bmiResult = imc(poids, taille);
+    console.log("BMI Result:", bmiResult);
+    result.textContent = bmiResult;
+});
+These console logs will help you see if the event listener is triggered and if the values of poids and taille are correctly retrieved. If the logs don't appear in the console when you click the button, it indicates that the event listener might not be attached correctly. If the logs appear but the BMI result is not as expected, there might be an issue with the imc function.
+
+User
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poids = document.querySelector('.poids')
+let taille = document.querySelector('.taille')
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+//calculate BMI and caaategorze it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// add active class
+  function infobox() {
+    if (wordArray.length > 0) {
+      randomNumber = Math.floor(Math.random() * (wordArray.length));
+      thisWord = wordArray[randomNumber]
+      gameTitle.innerHTML = `TRADUIS LE MOT ${thisWord["Mot original"]}`
+    } else {
+      game.classList.remove('active')
+      words.innerHTML = "No More Words!"
+      popup.style.display="none"
+    }
+  }
+
+  //check local storage
+
+if (JSON.parse(localStorage.getItem('mots'))) {
+    wordArray = JSON.parse(localStorage.getItem('mots'))
+    recordedWords()
+    popup.style.display="inline-block"
+  }
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+//Envoyer button on Welcome popup 
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    let bmiResult = imc(poids, taille);
+    console.log("BMI Result:", bmiResult);
+    result.textContent = bmiResult;
+} else {
+    message.innerHTML = `Remplissez les champs`
+});
+
+// add active class
+popup.addEventListener('click', function(){
+    popup.classList.add('active')
+    infobox()
+  })
+
+// remove active class
+
+close.addEventListener('click', function() {
+    game.classList.remove('active')
+    score = 0
+    tries = 0
+    game_score.innerHTML  = ""
+  })
+ChatGPT
+It looks like there's a syntax error in your event listener for the button click. The if statement isn't properly closed with a curly brace (}). Here's the corrected event listener:
+
+javascript
+Copy code
+//Envoyer button on Welcome popup 
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+I added the missing curly brace to properly close the if statement. Now, the event listener checks if both the weight and height fields are filled before calculating the BMI. If any of them are empty, it displays a message to fill in the fields.
+
+User
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poids = document.querySelector('.poids')
+let taille = document.querySelector('.taille')
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+//calculate BMI and caaategorze it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// add active class
+  function infobox() {
+    if (wordArray.length > 0) {
+      randomNumber = Math.floor(Math.random() * (wordArray.length));
+      thisWord = wordArray[randomNumber]
+      gameTitle.innerHTML = `TRADUIS LE MOT ${thisWord["Mot original"]}`
+    } else {
+      game.classList.remove('active')
+      words.innerHTML = "No More Words!"
+      popup.style.display="none"
+    }
+  }
+
+  //check local storage
+
+if (JSON.parse(localStorage.getItem('mots'))) {
+    wordArray = JSON.parse(localStorage.getItem('mots'))
+    recordedWords()
+    popup.style.display="inline-block"
+  }
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+//Envoyer button on Welcome popup 
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+
+// add active class
+popup.addEventListener('click', function(){
+    popup.classList.add('active')
+    infobox()
+  })
+
+// remove active class
+
+close.addEventListener('click', function() {
+    game.classList.remove('active')
+    score = 0
+    tries = 0
+    game_score.innerHTML  = ""
+  })
+ChatGPT
+It seems like you're trying to reference an element with the class close in your code without defining it. Make sure that there is an element in your HTML with the class close, and then you can attach the event listener to it. For example:
+
+html
+Copy code
+<button class="close">Close</button>
+And then, you can attach the event listener to it like this:
+
+javascript
+Copy code
+// remove active class
+let close = document.querySelector('.close');
+
+close.addEventListener('click', function() {
+    popup.classList.remove('active');
+    score = 0;
+    tries = 0;
+    game_score.innerHTML = "";
+});
+Make sure that the .close button exists in your HTML, and adjust the selector if necessary to match the actual class of your close button.
+
+User
+close .welcome when button envoyer is clicked <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello,<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To close the .welcome popup when the "Envoyer" button is clicked, you can add an event listener to the button in your JavaScript code. Inside the event listener, you'll change the style of the .welcome element to hide it. Here's how you can do it:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi');
+let btn = document.querySelector('.launch');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+let popup = document.querySelector('.welcome');
+let message = document.querySelector('.message');
+let dailyWeight = document.querySelector('.daily-weigh');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+// Calculate BMI and categorize it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+// Envoyer button on Welcome popup
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+In this code, I added popup.style.display = "none"; inside the event listener for the "Envoyer" button click. This line changes the display property of the .welcome popup to "none", effectively hiding it when the button is clicked and the BMI is calculated.
+
+User
+Remove class filter whenn popup is closed 
+ChatGPT
+To remove the .filter class when the popup is closed, you can modify the event listener for closing the popup to also remove the class from the .filter element. Here's how you can do it:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi');
+let btn = document.querySelector('.launch');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+let popup = document.querySelector('.welcome');
+let message = document.querySelector('.message');
+let dailyWeight = document.querySelector('.daily-weigh');
+let filter = document.querySelector('.filter'); // Add this line
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+// Calculate BMI and categorize it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+// Envoyer button on Welcome popup
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+
+// Remove active class and filter
+close.addEventListener('click', function() {
+    popup.classList.remove('active');
+    filter.classList.remove('filter'); // Add this line
+    score = 0;
+    tries = 0;
+    game_score.innerHTML = "";
+});
+In this code, I added let filter = document.querySelector('.filter'); to select the .filter element. Then, inside both event listeners (btn click and close click), I added filter.classList.remove('filter'); to remove the class from the .filter element when the popup is closed.
+
+User
+Add prenom and age from popup to first h1 from class myapp <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello,<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To add the prenom and age from the popup to the first h1 element inside the myapp class, you can modify the event listener for the "Envoyer" button click. Here's how you can do it:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi');
+let btn = document.querySelector('.launch');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+let prenomInput = document.getElementById('prenom'); // Added this line
+let ageInput = document.getElementById('age'); // Added this line
+let popup = document.querySelector('.welcome');
+let message = document.querySelector('.message');
+let dailyWeight = document.querySelector('.daily-weigh');
+let filter = document.querySelector('.filter');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+// Calculate BMI and categorize it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+// Envoyer button on Welcome popup
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${ageInput.value}</span>`;
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+In this code, I added two lines to select the prenom and age input elements using their IDs (prenom and age). Then, inside the event listener for the "Envoyer" button click, I added code to update the content of the first h1 element inside the myapp class with the values of prenom and age.
+
+User
+AAdd weight entered in popup to class last-weight <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To add the weight entered in the popup to the last-weight element, you can modify the event listener for the "Envoyer" button click. Here's how you can do it:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi');
+let btn = document.querySelector('.launch');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+let prenomInput = document.getElementById('prenom');
+let ageInput = document.getElementById('age');
+let popup = document.querySelector('.welcome');
+let message = document.querySelector('.message');
+let dailyWeight = document.querySelector('.daily-weigh');
+let filter = document.querySelector('.filter');
+let lastWeightSpan = document.querySelector('.last-weight span'); // Added this line to select the span inside .last-weight
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+// Calculate BMI and categorize it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+// Envoyer button on Welcome popup
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${ageInput.value}</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+In this code, I added let lastWeightSpan = document.querySelector('.last-weight span'); to select the span element inside the .last-weight element. Then, inside the event listener for the "Envoyer" button click, I added lastWeightSpan.textContent = ${poids.value} kg; to update the content of the span element with the weight entered in the popup.
+
+User
+calculate age based on date of birth put in popup <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To calculate the age based on the date of birth entered in the popup, you can modify the event listener for the "Envoyer" button click. Here's how you can do it:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi');
+let btn = document.querySelector('.launch');
+let poids = document.querySelector('.poids');
+let taille = document.querySelector('.taille');
+let prenomInput = document.getElementById('prenom');
+let ageInput = document.getElementById('age');
+let popup = document.querySelector('.welcome');
+let message = document.querySelector('.message');
+let dailyWeight = document.querySelector('.daily-weigh');
+let filter = document.querySelector('.filter');
+let lastWeightSpan = document.querySelector('.last-weight span');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+// Calculate BMI and categorize it
+function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+
+// Calculate age based on date of birth
+function calculateAge(birthDate) {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const month = today.getMonth() - birth.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+// Envoyer button on Welcome popup
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value && prenomInput.value && ageInput.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${calculateAge(ageInput.value)} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+In this code, I added a calculateAge function that takes the birth date as input and returns the calculated age. Inside the event listener for the "Envoyer" button click, I added calculateAge(ageInput.value) to calculate the age based on the date of birth entered in the popup.
+
+User
+add aage too age span btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello ${prenomInput.value}, <span>${age}</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez les champs`;
+    }
+});
+ChatGPT
+To add the age to the age span, you can calculate the age based on the date of birth and then update the age span accordingly. Here's the modified event listener:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value && prenomInput.value && ageInput.value) {
+        let bmiResult = imc(poids, taille);
+        console.log("BMI Result:", bmiResult);
+        result.textContent = bmiResult;
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+In this code, I've added the calculation of age based on the date of birth entered in the popup, and then updated the age span accordingly in the first h1 element in myapp.
+
+User
+calculate bmi and add ito to class my-bmi function imc(poids, taille) {
+    let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+    if (bmi > 40) {
+        return "Obésité morbide";
+    } else if (bmi > 30) {
+        return "Obésité";
+    } else if (bmi > 25) {
+        return "Surpoids";
+    } else if (bmi > 18.5) {
+        return "Normal";
+    } else {
+        return "Maigreur";
+    }
+}
+ChatGPT
+To calculate the BMI (Body Mass Index) and add it to the class "my-bmi", you can modify the event listener for the "Envoyer" button click. Here's how you can integrate the BMI calculation and update the DOM accordingly:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+        let bmiCategory;
+        if (bmi > 40) {
+            bmiCategory = "Obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "Obésité";
+        } else if (bmi > 25) {
+            bmiCategory = "Surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "Normal";
+        } else {
+            bmiCategory = "Maigreur";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+In this code, after calculating the BMI, it updates the content of the element with the class "my-bmi" with the calculated BMI value.
+
+User
+Add result of BMI caalculation to class my-bmi and bmi category to class bmi-sentences <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To achieve this, you need to update the DOM elements with the calculated BMI and its category. Here's how you can modify the event listener for the "Envoyer" button click to achieve this:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = parseInt(poids.value) / ((parseInt(taille.value) / 100) ** 2);
+        let bmiCategory;
+        if (bmi > 40) {
+            bmiCategory = "Obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "Obésité";
+        } else if (bmi > 25) {
+            bmiCategory = "Surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "Normal";
+        } else {
+            bmiCategory = "Maigreur";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        
+        // Update BMI category in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiCategory;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+In this code, after calculating the BMI and its category, it updates the respective DOM elements with the calculated values.
+
+User
+its not showing the result of the bmi calculation, just the bmi category
+ChatGPT
+Apologies for the oversight. Let's ensure that the BMI calculation result is displayed correctly. We'll update the DOM element .my-bmi with the calculated BMI value. Here's the corrected code:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    console.log("Poids:", poids.value);
+    console.log("Taille:", taille.value);
+    if (poids.value && taille.value && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let poidsValue = parseFloat(poids.value);
+        let tailleValue = parseFloat(taille.value) / 100;
+        let bmi = poidsValue / (tailleValue * tailleValue);
+        let bmiCategory;
+        if (bmi > 40) {
+            bmiCategory = "Obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "Obésité";
+        } else if (bmi > 25) {
+            bmiCategory = "Surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "Normal";
+        } else {
+            bmiCategory = "Maigreur";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        
+        // Update BMI category in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiCategory;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+This code ensures that the calculated BMI value is displayed in the .my-bmi element in addition to the BMI category.
+
+User
+calculate bmi using poids and taille inputs
+ChatGPT
+To calculate BMI (Body Mass Index) using the weight (poids) and height (taille) inputs, we'll need to extract the values from these inputs and then perform the BMI calculation. Here's how you can modify the event listener to calculate BMI:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poids.value);
+    let tailleValue = parseFloat(taille.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        if (bmi > 40) {
+            bmiCategory = "Obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "Obésité";
+        } else if (bmi > 25) {
+            bmiCategory = "Surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "Normal";
+        } else {
+            bmiCategory = "Maigreur";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        
+        // Update BMI category in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiCategory;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+In this code:
+
+We extract the values from the poids and taille inputs and convert them to floating-point numbers using parseFloat.
+We then check if both inputs are valid numbers (!isNaN(poidsValue) and !isNaN(tailleValue)).
+If both inputs are valid, we calculate the BMI using the formula weight / (height^2), where height is converted from centimeters to meters by dividing by 100.
+Depending on the calculated BMI, we determine the BMI category.
+We update the DOM elements with the calculated BMI and BMI category.
+Finally, we proceed with the rest of the code to handle closing the popup, removing the filter class, calculating age, and updating the DOM with the person's name and age.
+User
+change text color for my-bmi depending on bmi category body {
+  font-family: "Tilt Neon", sans-serif;
+  background:#FCFCFD;
+}
+.welcome {
+  position: fixed;
+  left:100px;
+  right:100px;
+  top:50%;
+  transform:translateY(-50%);
+  box-shadow:0 0 30px rgba(0,0,0,0.2);
+  padding:50px;
+  border:5px solid tomato;
+  background:#FCFCFD;
+  z-index:100;
+  h1 {
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 0;
+  }
+  &.active {
+    transform:translateY(-1000%);
+  }
+  img {
+    width: 100px;
+  }
+  .logo {
+    text-align: center;
+  }
+}
+p {
+  text-align: center;
+}
+.user-info {
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input, button {
+    width: 100%;
+    padding:5px 10px;
+    border-radius:3px;
+    border:1px solid lightgray;
+    &.error {
+      border-color:tomato;
+    }
+  }
+  button {
+    cursor:pointer;
+    background:tomato;
+    color:beige;
+    padding:15px;
+    @include transition;
+    &:hover {
+      background:rgb(176, 57, 36);
+    }
+    
+  }
+}
+.welcome .reset, .main .reset {
+  background:darkslategray;
+  color:#fff;
+  width:100%;
+  padding: 15px;
+  cursor: pointer;
+  @include transition;
+  &:hover {
+    background:rgb(18, 31, 31);
+  }
+}
+.form {
+  padding:5px 0;
+}
+.main {
+  font-family: "Podkova", serif;
+  .logo {
+    width: 150px;
+    position: absolute;
+    top:20px;
+    right:20px;
+    z-index:-1;
+  }
+  .myapp {
+    padding:50px 100px;
+  }
+  h1 {
+    font-weight: normal;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    span {
+      display: block;
+      font-size: 3.5rem;
+      margin-top: -10px;
+      color:tomato;
+    }
+  }
+  h2 {
+    font-weight: normal;
+    font-size: 14px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .weight {
+    display: flex;
+    gap:30px;
+    @media screen and (max-width:800px) {
+      flex-direction:column;
+    }
+  }
+  .bmi {
+    border:1px solid tomato;
+    padding:20px;
+    border-radius:5px;
+    min-width:250px;
+  }
+  .bmi-sentences {
+    text-align: center;
+  }
+  .my-bmi {
+    color:darkslategray;
+    text-align: center;
+    font-size: 7rem;
+    @include transition;
+    &.maigreur {
+      color:skyblue;
+    }
+    &.normal {
+      color:greenyellow;
+    }
+    &.surpoids {
+      color:orange;
+    }
+    &.obesite {
+      color:orangered;
+    }
+    &.obesite-morbide {
+      color:rgb(146, 22, 0);
+    }
+  }
+  .daily-weight {
+    text-align: center;
+    h2 {
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+    input {
+      padding:10px;
+      width: 100%;
+      border:1px solid lightgray;
+      &:focus {
+        outline:none;
+        border:1px solid tomato;
+      }
+    }
+  }
+}
+#myChart {
+  width: 100%;
+}
+.kg-container {
+  position: relative;
+  .kg {
+    position: absolute;
+    top:50%;
+    right: 30px;
+    transform:translateY(-50%);
+  }
+}
+.message {
+  padding:5px 0;
+  text-align: center;
+  height: 20px;
+  color:tomato;
+}
+.last-weight {
+  span {
+    font-weight: bold;
+    color:tomato;
+  }
+}
+.new-weight {
+  width: 100%;
+  padding:15px;
+  border-radius:3px;
+  margin-top: 10px;
+  background:tomato;
+  color:#fff;
+  cursor:pointer;
+  border:none;
+  margin-bottom: 10px;
+  @include transition;
+  &:hover {
+    background:rgb(192, 59, 36);
+  }
+}
+.filter {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background:rgba(0,0,0,0.85);
+  z-index:2;
+  &.hide {
+    transform:translateY(-100%);
+  }
+}
+ChatGPT
+To change the text color for .my-bmi depending on the BMI category, you can update the JavaScript code to add/remove classes corresponding to each BMI category. Then, update the CSS to style each category accordingly. Here's how you can do it:
+
+JavaScript:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poids.value);
+    let tailleValue = parseFloat(taille.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+        } else {
+            bmiCategory = "maigreur";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiCategory.charAt(0).toUpperCase() + bmiCategory.slice(1);
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+CSS:
+
+css
+Copy code
+.my-bmi {
+    text-align: center;
+    font-size: 7rem;
+    @include transition;
+}
+.my-bmi.maigreur {
+    color: skyblue;
+}
+.my-bmi.normal {
+    color: greenyellow;
+}
+.my-bmi.surpoids {
+    color: orange;
+}
+.my-bmi.obesite {
+    color: orangered;
+}
+.my-bmi.obesite-morbide {
+    color: rgb(146, 22, 0);
+}
+This code will dynamically update the text color of .my-bmi based on the BMI category determined in the JavaScript code.
+
+User
+Add a different phrase depending on  the bmi category to bmi sentences - De 0 à 18.5 : Vous êtes maigre (classe .maigreur)
+- De 18.6 à 24.9 : Vous avez un poids normal (classe .normal)
+- De 25 à 29.9 : Vous êtes en surpoids (classe .surpoids)
+- De 30 à 39.9 : Vous êtes obèse (classe .obesite)
+- De 40 à l’infini : Vous êtes en obésité morbide (classe .obesite-morbide)
+ChatGPT
+You can achieve this by updating the JavaScript code to set the appropriate phrase for each BMI category and then updating the DOM accordingly. Here's how you can do it:
+
+JavaScript:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poids.value);
+    let tailleValue = parseFloat(taille.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+This code will update the BMI category phrase based on the calculated BMI and then update the DOM to display the appropriate phrase in the .bmi-sentences element.
+
+User
+add phrase for the age Vous avez followed by thhe age
+ChatGPT
+To add the age phrase to the first h1 element in the myapp section, you can update the JavaScript code as follows:
+
+javascript
+Copy code
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poids.value);
+    let tailleValue = parseFloat(taille.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello, ${prenomInput.value}, <span>${age} ans</span>. Vous avez ${age} ans`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+This code will update the age phrase in the first h1 element of the myapp section to "Vous avez [age] ans" along with the previous changes for calculating and displaying BMI and its category.
+
+User
+save information using local storage
+ChatGPT
+To save the information using local storage, you can update the JavaScript code to store the user's information such as name, age, weight, and height. Here's how you can do it:
+
+javascript
+Copy code
+// Get references to input elements
+let prenomInput = document.getElementById('prenom');
+let ageInput = document.getElementById('age');
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+
+// Event listener for the launch button
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        
+        // Save user info to local storage
+        saveUserInfo();
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+
+// Load user info when the page loads
+loadUserInfo();
+This code will save the user's information to local storage when the launch button is clicked, and it will also load the user's information from local storage when the page loads. Make sure to call the saveUserInfo function whenever the user's information is updated.
+
+User
+only open popup iff theres no previous information
+ChatGPT
+To open the popup only if there is no previous information stored in the local storage, you can modify the code to check if the user information exists in the local storage when the page loads. If the information exists, the popup won't be displayed; otherwise, it will be shown. Here's the updated JavaScript code:
+
+javascript
+Copy code
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+
+// Open the popup only if there's no previous information
+if (!userInfoExists()) {
+    popup.style.display = "block";
+}
+
+// Event listener for the launch button
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        
+        // Save user info to local storage
+        saveUserInfo();
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+
+// Load user info when the page loads
+loadUserInfo();
+This code will only open the popup if there is no previous information stored in the local storage. If the information exists, the popup won't be displayed.
+
+User
+is my code correct? // 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+let filter = document.querySelector('.filter');
+let prenomInput = document.getElementById('prenom'); 
+let ageInput = document.getElementById('age'); 
+let lastWeightSpan = document.querySelector('.last-weight span');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+
+// Open the popup only if there's no previous information
+if (!userInfoExists()) {
+    popup.style.display = "block";
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+// Calculate age based on date of birth
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poids.value);
+    let tailleValue = parseFloat(taille.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello ${prenomInput.value}, <span> vous avez ${age} ans</span>`;
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poids.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        
+        // Save user info to local storage
+        saveUserInfo();
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+
+// Load user info when the page loads
+loadUserInfo();
+ChatGPT
+Your code looks good, but there are a few things to note:
+
+You have an event listener (btn.addEventListener) for the launch button twice in your code. It's better to have it only once to avoid duplicate execution of the same code.
+Make sure to define the imc function for calculating BMI if it's not already defined in your JavaScript file. The imc function is referenced in your event listener but isn't shown in the provided code snippet.
+The logic for calculating age based on the date of birth is correctly implemented.
+You're correctly saving user information to local storage and loading it when the page loads.
+Overall, your code seems to achieve the desired functionality. If you encounter any issues or need further assistance, feel free to ask!
+
+User
+the popup is still appearing when theres information in local storage
+ChatGPT
+To ensure that the popup only appears when there is no previous information in local storage, you should move the logic for opening the popup inside the condition where you check if the user information exists. Here's the updated code:
+
+javascript
+Copy code
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+let filter = document.querySelector('.filter');
+let prenomInput = document.getElementById('prenom'); 
+let ageInput = document.getElementById('age'); 
+let lastWeightSpan = document.querySelector('.last-weight span');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+// Load user info when the page loads
+loadUserInfo();
+
+// Open the popup only if there's no previous information
+if (!userInfoExists()) {
+    popup.style.display = "block";
+}
+
+// Calculate BMI and handle button click event
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        
+        // Save user info to local storage
+        saveUserInfo();
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+With this adjustment, the popup will only appear when there is no previous user information in local storage. If there is existing information, the popup will not be displayed.
+
+User
+the popup is still opening when information is already stored <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+It seems like the logic for checking whether user information exists in local storage and opening the popup accordingly is correct. However, to further diagnose the issue, I would need to see the JavaScript code that interacts with the local storage. Could you please provide the JavaScript code you're using to handle local storage?
+
+User
+// 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+let filter = document.querySelector('.filter');
+let prenomInput = document.getElementById('prenom'); 
+let ageInput = document.getElementById('age'); 
+let lastWeightSpan = document.querySelector('.last-weight span');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+// Load user info when the page loads
+loadUserInfo();
+
+// Open the popup only if there's no previous information
+if (!userInfoExists()) {
+    popup.style.display = "block";
+}
+
+// Calculate BMI and handle button click event
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+        // Remove the filter class
+        filter.classList.remove('filter');
+        
+        // Save user info to local storage
+        saveUserInfo();
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+ChatGPT
+The code you provided appears to be correct. It loads user information from local storage when the page loads, checks if user information exists, and opens the popup only if there's no previous information. Additionally, it saves user information to local storage when the button is clicked, calculates the BMI, and updates the DOM accordingly.
+
+If the popup is still appearing even when information is already stored in local storage, there might be another part of your code causing this behavior. Double-check if there are any other conditions or triggers that might be causing the popup to open unexpectedly. Also, ensure that there are no errors in the console that could be interfering with the execution of your code. If you're still having trouble, feel free to share more details or specific parts of your code for further assistance.
+
+User
+body {
+  font-family: "Tilt Neon", sans-serif;
+  background:#FCFCFD;
+}
+.welcome {
+  position: fixed;
+  left:100px;
+  right:100px;
+  top:50%;
+  transform:translateY(-50%);
+  box-shadow:0 0 30px rgba(0,0,0,0.2);
+  padding:50px;
+  border:5px solid tomato;
+  background:#FCFCFD;
+  z-index:100;
+  h1 {
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 0;
+  }
+  &.active {
+    transform:translateY(-1000%);
+  }
+  img {
+    width: 100px;
+  }
+  .logo {
+    text-align: center;
+  }
+}
+p {
+  text-align: center;
+}
+.user-info {
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input, button {
+    width: 100%;
+    padding:5px 10px;
+    border-radius:3px;
+    border:1px solid lightgray;
+    &.error {
+      border-color:tomato;
+    }
+  }
+  button {
+    cursor:pointer;
+    background:tomato;
+    color:beige;
+    padding:15px;
+    @include transition;
+    &:hover {
+      background:rgb(176, 57, 36);
+    }
+    
+  }
+}
+.welcome .reset, .main .reset {
+  background:darkslategray;
+  color:#fff;
+  width:100%;
+  padding: 15px;
+  cursor: pointer;
+  @include transition;
+  &:hover {
+    background:rgb(18, 31, 31);
+  }
+}
+.form {
+  padding:5px 0;
+}
+.main {
+  font-family: "Podkova", serif;
+  .logo {
+    width: 150px;
+    position: absolute;
+    top:20px;
+    right:20px;
+    z-index:-1;
+  }
+  .myapp {
+    padding:50px 100px;
+  }
+  h1 {
+    font-weight: normal;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    span {
+      display: block;
+      font-size: 3.5rem;
+      margin-top: -10px;
+      color:tomato;
+    }
+  }
+  h2 {
+    font-weight: normal;
+    font-size: 14px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .weight {
+    display: flex;
+    gap:30px;
+    @media screen and (max-width:800px) {
+      flex-direction:column;
+    }
+  }
+  .bmi {
+    border:1px solid tomato;
+    padding:20px;
+    border-radius:5px;
+    min-width:250px;
+  }
+  .bmi-sentences {
+    text-align: center;
+  }
+  .my-bmi {
+    color:darkslategray;
+    text-align: center;
+    font-size: 7rem;
+    @include transition;
+    &.maigreur {
+      color:skyblue;
+    }
+    &.normal {
+      color:greenyellow;
+    }
+    &.surpoids {
+      color:orange;
+    }
+    &.obesite {
+      color:orangered;
+    }
+    &.obesite-morbide {
+      color:rgb(146, 22, 0);
+    }
+  }
+  .daily-weight {
+    text-align: center;
+    h2 {
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+    input {
+      padding:10px;
+      width: 100%;
+      border:1px solid lightgray;
+      &:focus {
+        outline:none;
+        border:1px solid tomato;
+      }
+    }
+  }
+}
+#myChart {
+  width: 100%;
+}
+.kg-container {
+  position: relative;
+  .kg {
+    position: absolute;
+    top:50%;
+    right: 30px;
+    transform:translateY(-50%);
+  }
+}
+.message {
+  padding:5px 0;
+  text-align: center;
+  height: 20px;
+  color:tomato;
+}
+.last-weight {
+  span {
+    font-weight: bold;
+    color:tomato;
+  }
+}
+.new-weight {
+  width: 100%;
+  padding:15px;
+  border-radius:3px;
+  margin-top: 10px;
+  background:tomato;
+  color:#fff;
+  cursor:pointer;
+  border:none;
+  margin-bottom: 10px;
+  @include transition;
+  &:hover {
+    background:rgb(192, 59, 36);
+  }
+}
+.filter {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background:rgba(0,0,0,0.85);
+  z-index:2;
+  &.hide {
+    transform:translateY(-100%);
+  }
+}
+ChatGPT
+Your CSS styles look good! They define the appearance and layout of various elements in your web page, such as the welcome popup, form elements, and styles for displaying BMI information.
+
+It seems like you're using a preprocessor like SCSS (judging by the @include statements), which can help you write cleaner and more organized CSS.
+
+If you encounter any specific issues or have further questions about styling your web page, feel free to ask!
+
+User
+is the css interfering with the popup not appeaaringg whhen information is being stored?
+ChatGPT
+The CSS you provided appears to be focused on styling various elements within your web page, such as fonts, colors, positioning, and transitions. Based on what you've shared, there doesn't seem to be any CSS rules that directly interfere with the behavior of the popup not appearing when information is being stored.
+
+The issue with the popup not appearing when information is already stored is likely related to the JavaScript code. Specifically, it seems that the logic to open the popup only if there's no previous information is not being executed correctly. I would suggest reviewing your JavaScript code, particularly the part where you check for the existence of user information in local storage and conditionally show the popup accordingly.
+
+If you need further assistance debugging the issue with the popup not appearing, feel free to share your JavaScript code, and I can help you troubleshoot it!
+
+User
+remove everything in local storage when clicking on button class reset <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier">
+      </div>
+      <div class="form">
+        <label for="age">Quand êtes-vous né.e ?</label>
+        <input type="date" id="age">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg">
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To remove everything from local storage when clicking on the button with the class "reset" in your HTML document, you can add an event listener to that button and implement the logic to clear the local storage. Here's how you can modify your JavaScript code to achieve that:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+  // 🧞🧞🧞 Variable 🧞🧞🧞
+  let result = document.querySelector('.my-bmi')
+  let btn = document.querySelector('.launch')
+  let poidsInput = document.getElementById('poids');
+  let tailleInput = document.getElementById('taille');
+  let popup = document.querySelector('.welcome')
+  let message = document.querySelector('.message')
+  let dailyWeight = document.querySelector('.daily-weigh')
+  let filter = document.querySelector('.filter');
+  let prenomInput = document.getElementById('prenom'); 
+  let ageInput = document.getElementById('age'); 
+  let lastWeightSpan = document.querySelector('.last-weight span');
+  let resetButton = document.querySelector('.reset');
+
+  // Function to check if user information exists in local storage
+  function userInfoExists() {
+      return localStorage.getItem('userInfo') !== null;
+  }
+
+  // Function to save user information to local storage
+  function saveUserInfo() {
+      let userInfo = {
+          prenom: prenomInput.value,
+          age: ageInput.value,
+          poids: poidsInput.value,
+          taille: tailleInput.value
+      };
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
+
+  // Function to load user information from local storage
+  function loadUserInfo() {
+      let userInfo = localStorage.getItem('userInfo');
+      if (userInfo) {
+          userInfo = JSON.parse(userInfo);
+          prenomInput.value = userInfo.prenom;
+          ageInput.value = userInfo.age;
+          poidsInput.value = userInfo.poids;
+          tailleInput.value = userInfo.taille;
+      }
+  }
+
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+      popup.style.display = "block";
+  }
+
+  // Calculate BMI and handle button click event
+  btn.addEventListener('click', function() {
+      // Your existing BMI calculation logic goes here...
+  });
+
+  // Event listener for the reset button
+  resetButton.addEventListener('click', function() {
+      // Clear local storage
+      localStorage.clear();
+      // Reload the page
+      location.reload();
+  });
+});
+With this modification, clicking on the button with the class "reset" will remove everything from local storage and then reload the page, effectively resetting the application to its initial state.
+
+User
+animate the bmi so it goes from 0 to the result
+ChatGPT
+To animate the BMI value so that it transitions smoothly from 0 to the calculated result, you can use JavaScript to update the value incrementally over a certain duration. Here's how you can modify your JavaScript code to achieve this:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+  // 🧞🧞🧞 Variable 🧞🧞🧞
+  let result = document.querySelector('.my-bmi')
+  let btn = document.querySelector('.launch')
+  let poidsInput = document.getElementById('poids');
+  let tailleInput = document.getElementById('taille');
+  let popup = document.querySelector('.welcome')
+  let message = document.querySelector('.message')
+  let dailyWeight = document.querySelector('.daily-weigh')
+  let filter = document.querySelector('.filter');
+  let prenomInput = document.getElementById('prenom'); 
+  let ageInput = document.getElementById('age'); 
+  let lastWeightSpan = document.querySelector('.last-weight span');
+  let resetButton = document.querySelector('.reset');
+
+  // Function to check if user information exists in local storage
+  function userInfoExists() {
+      return localStorage.getItem('userInfo') !== null;
+  }
+
+  // Function to save user information to local storage
+  function saveUserInfo() {
+      let userInfo = {
+          prenom: prenomInput.value,
+          age: ageInput.value,
+          poids: poidsInput.value,
+          taille: tailleInput.value
+      };
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
+
+  // Function to load user information from local storage
+  function loadUserInfo() {
+      let userInfo = localStorage.getItem('userInfo');
+      if (userInfo) {
+          userInfo = JSON.parse(userInfo);
+          prenomInput.value = userInfo.prenom;
+          ageInput.value = userInfo.age;
+          poidsInput.value = userInfo.poids;
+          tailleInput.value = userInfo.taille;
+      }
+  }
+
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+      popup.style.display = "block";
+  }
+
+  // Function to animate BMI value
+  function animateBMI(startValue, endValue, duration) {
+    let startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      result.textContent = (startValue + (endValue - startValue) * progress / duration).toFixed(2);
+      if (progress < duration) {
+        window.requestAnimationFrame(step);
+      }
+    }
+
+    window.requestAnimationFrame(step);
+  }
+
+  // Calculate BMI and handle button click event
+  btn.addEventListener('click', function() {
+    // Your existing BMI calculation logic goes here...
+    
+    // Example usage of animateBMI function:
+    const startValue = 0;
+    const endValue = 25; // Change this to the calculated BMI value
+    const duration = 1000; // Duration of animation in milliseconds
+    animateBMI(startValue, endValue, duration);
+  });
+
+  // Event listener for the reset button
+  resetButton.addEventListener('click', function() {
+      // Clear local storage
+      localStorage.clear();
+      // Reload the page
+      location.reload();
+  });
+});
+In this modified code:
+
+I added a animateBMI function that takes the start value, end value, and duration as parameters. This function will update the BMI value gradually from the start value to the end value over the specified duration.
+Inside the button click event listener (btn.addEventListener('click', ...)) where you calculate the BMI, you can call the animateBMI function with appropriate parameters to animate the BMI value transition. Replace the endValue with your calculated BMI value.
+User
+When  all the fields are not filled in the welcome popup, let thhe user know which fields need to be filled by highlighting them in red
+ChatGPT
+To highlight the unfilled fields in the welcome popup in red when the user attempts to submit without filling in all the required fields, you can add a CSS class to those fields and remove the class when the user fills them. Here's how you can achieve this:
+
+Add a CSS class to style the unfilled fields in red.
+Update the event listener for the submit button to check for empty fields and add the CSS class to them.
+Remove the CSS class when the user fills the fields.
+Here's the modified code:
+
+HTML:
+
+html
+Copy code
+<!-- Popup d'accueil -->
+<div class="welcome">
+  <div class="logo">
+    <img src="images/w8-cropped.png" alt="W8.">
+  </div>
+  <h1>Hej!</h1>
+  <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+  <div class="user-info">
+    <div class="form">
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" placeholder="Par ex : Olivier" class="required"> <!-- Added 'required' class -->
+    </div>
+    <div class="form">
+      <label for="age">Quand êtes-vous né.e ?</label>
+      <input type="date" id="age" class="required"> <!-- Added 'required' class -->
+    </div>
+    <div class="form">
+      <label for="poids">Quel est votre poids (en kg) ?</label>
+      <input type="number" id="poids" class="poids required" placeholder="Par ex : 53,40 kg"> <!-- Added 'required' class -->
+    </div>
+    <div class="form">
+      <label for="taille">Quel est votre taille (en cm) ?</label>
+      <input type="number" id="taille" class="taille required" placeholder="Par ex : 189 si vous mesurez 1m89"> <!-- Added 'required' class -->
+    </div>
+    <button type="button" class="launch">Envoyer</button>
+    <div class="message"> </div>
+  </div>
+</div>
+CSS:
+
+css
+Copy code
+.required {
+  border: 1px solid lightgray; /* Default border color */
+}
+
+.required.error {
+  border-color: red; /* Highlight color for unfilled fields */
+}
+JavaScript:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+  // 🧞🧞🧞 Variable 🧞🧞🧞
+  let result = document.querySelector('.my-bmi');
+  let btn = document.querySelector('.launch');
+  let poidsInput = document.getElementById('poids');
+  let tailleInput = document.getElementById('taille');
+  let prenomInput = document.getElementById('prenom');
+  let ageInput = document.getElementById('age');
+  let popup = document.querySelector('.welcome');
+  let message = document.querySelector('.message');
+  let filter = document.querySelector('.filter');
+  let requiredInputs = document.querySelectorAll('.required');
+
+  // Function to check if user information exists in local storage
+  function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+  }
+
+  // Function to save user information to local storage
+  function saveUserInfo() {
+    let userInfo = {
+      prenom: prenomInput.value,
+      age: ageInput.value,
+      poids: poidsInput.value,
+      taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
+
+  // Function to load user information from local storage
+  function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      userInfo = JSON.parse(userInfo);
+      prenomInput.value = userInfo.prenom;
+      ageInput.value = userInfo.age;
+      poidsInput.value = userInfo.poids;
+      tailleInput.value = userInfo.taille;
+    }
+  }
+
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+    popup.style.display = "block";
+  }
+
+  // Event listener for the submit button
+  btn.addEventListener('click', function() {
+    // Reset error styles
+    requiredInputs.forEach(function(input) {
+      input.classList.remove('error');
+    });
+
+    // Check if any required field is empty
+    let hasError = false;
+    requiredInputs.forEach(function(input) {
+      if (!input.value.trim()) {
+        input.classList.add('error'); // Add error class to unfilled fields
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      message.textContent = 'Remplissez tous les champs';
+    } else {
+      message.textContent = ''; // Clear error message
+      // Your BMI calculation and other logic goes here...
+    }
+  });
+});
+With these changes, when the user clicks the submit button without filling in all the required fields, the empty fields will be highlighted in red, and an error message will be displayed. Once the user fills in the required fields, the error highlighting will be removed.
+
+User
+modify this code to add the previosu request // 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+let filter = document.querySelector('.filter');
+let prenomInput = document.getElementById('prenom'); 
+let ageInput = document.getElementById('age'); 
+let lastWeightSpan = document.querySelector('.last-weight span');
+let resetButton = document.querySelector('.reset');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+      popup.style.display = "block";
+  }
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+// Event listener for the launch button
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+
+        // Remove the filter class
+        filter.classList.remove('filter');
+
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        // Save user info to local storage
+        saveUserInfo();
+
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+
+
+
+  // Event listener for the reset button
+  resetButton.addEventListener('click', function() {
+    // Clear local storage
+    localStorage.clear();
+    // Reload the page
+    location.reload();
+});
+
+// Load user info when the page loads
+loadUserInfo();
+ChatGPT
+Here's the modified code with the addition of the previous request to add the reset functionality:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+  // 🧞🧞🧞 Variable 🧞🧞🧞
+  let result = document.querySelector('.my-bmi')
+  let btn = document.querySelector('.launch')
+  let poidsInput = document.getElementById('poids');
+  let tailleInput = document.getElementById('taille');
+  let popup = document.querySelector('.welcome')
+  let message = document.querySelector('.message')
+  let dailyWeight = document.querySelector('.daily-weigh')
+  let filter = document.querySelector('.filter');
+  let prenomInput = document.getElementById('prenom'); 
+  let ageInput = document.getElementById('age'); 
+  let lastWeightSpan = document.querySelector('.last-weight span');
+  let resetButton = document.querySelector('.reset');
+
+  // Function to check if user information exists in local storage
+  function userInfoExists() {
+      return localStorage.getItem('userInfo') !== null;
+  }
+
+  // Function to save user information to local storage
+  function saveUserInfo() {
+      let userInfo = {
+          prenom: prenomInput.value,
+          age: ageInput.value,
+          poids: poidsInput.value,
+          taille: tailleInput.value
+      };
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
+
+  // Function to load user information from local storage
+  function loadUserInfo() {
+      let userInfo = localStorage.getItem('userInfo');
+      if (userInfo) {
+          userInfo = JSON.parse(userInfo);
+          prenomInput.value = userInfo.prenom;
+          ageInput.value = userInfo.age;
+          poidsInput.value = userInfo.poids;
+          tailleInput.value = userInfo.taille;
+      }
+  }
+
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+      popup.style.display = "block";
+  }
+
+  // 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+  // Event listener for the launch button
+  btn.addEventListener('click', function() {
+      console.log("Button clicked");
+      let poidsValue = parseFloat(poidsInput.value);
+      let tailleValue = parseFloat(tailleInput.value);
+      if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+          // Calculate BMI
+          let bmi = poidsValue / ((tailleValue / 100) ** 2);
+          let bmiCategory;
+          let bmiPhrase;
+          if (bmi > 40) {
+              bmiCategory = "obesite-morbide";
+              bmiPhrase = "Vous êtes en obésité morbide";
+          } else if (bmi > 30) {
+              bmiCategory = "obesite";
+              bmiPhrase = "Vous êtes obèse";
+          } else if (bmi > 25) {
+              bmiCategory = "surpoids";
+              bmiPhrase = "Vous êtes en surpoids";
+          } else if (bmi > 18.5) {
+              bmiCategory = "normal";
+              bmiPhrase = "Vous avez un poids normal";
+          } else {
+              bmiCategory = "maigreur";
+              bmiPhrase = "Vous êtes maigre";
+          }
+          
+          // Update BMI in the DOM
+          let myBmiDiv = document.querySelector('.my-bmi');
+          myBmiDiv.textContent = bmi.toFixed(2);
+          // Remove all previous BMI category classes
+          myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+          // Add current BMI category class
+          myBmiDiv.classList.add(bmiCategory);
+          
+          // Update BMI category and phrase in the DOM
+          let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+          bmiSentencesDiv.textContent = bmiPhrase;
+          
+          // Close the welcome popup
+          popup.style.display = "none";
+
+          // Remove the filter class
+          filter.classList.remove('filter');
+
+          // Calculate age based on date of birth
+          let birthDate = new Date(ageInput.value);
+          let today = new Date();
+          let age = today.getFullYear() - birthDate.getFullYear();
+          let month = today.getMonth() - birthDate.getMonth();
+          if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+              age--;
+          }
+          
+          // Save user info to local storage
+          saveUserInfo();
+
+          // Add prenom and age to the first h1 element in myapp
+          let myappH1 = document.querySelector('.myapp h1');
+          myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+          
+          // Add weight to the last-weight span
+          lastWeightSpan.textContent = `${poidsInput.value} kg`;
+      } else {
+          message.innerHTML = `Remplissez tous les champs`;
+      }
+  });
+
+  // Event listener for the reset button
+  resetButton.addEventListener('click', function() {
+      // Clear local storage
+      localStorage.clear();
+      // Reload the page
+      location.reload();
+  });
+
+});
+This code now includes the reset functionality that clears the local storage and reloads the page when the reset button is clicked.
+
+User
+When  all the fields are not filled in the welcome popup, let thhe user know which fields need to be filled by highlighting them in red. modify this javascript file: // 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+let filter = document.querySelector('.filter');
+let prenomInput = document.getElementById('prenom'); 
+let ageInput = document.getElementById('age'); 
+let lastWeightSpan = document.querySelector('.last-weight span');
+let resetButton = document.querySelector('.reset');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+      popup.style.display = "none";
+  }
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+// Event listener for the launch button
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+
+        // Remove the filter class
+        filter.classList.remove('filter');
+
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        // Save user info to local storage
+        saveUserInfo();
+
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        message.innerHTML = `Remplissez tous les champs`;
+    }
+});
+
+
+
+  // Event listener for the reset button
+  resetButton.addEventListener('click', function() {
+    // Clear local storage
+    localStorage.clear();
+    // Reload the page
+    location.reload();
+});
+
+// Load user info when the page loads
+loadUserInfo();
+ChatGPT
+To highlight the unfilled fields in the welcome popup by changing their border color to red, you can add a CSS class to those fields when the launch button is clicked. Here's the modified JavaScript code to achieve this:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+    // 🧞🧞🧞 Variable 🧞🧞🧞
+    let result = document.querySelector('.my-bmi')
+    let btn = document.querySelector('.launch')
+    let poidsInput = document.getElementById('poids');
+    let tailleInput = document.getElementById('taille');
+    let popup = document.querySelector('.welcome')
+    let message = document.querySelector('.message')
+    let dailyWeight = document.querySelector('.daily-weigh')
+    let filter = document.querySelector('.filter');
+    let prenomInput = document.getElementById('prenom'); 
+    let ageInput = document.getElementById('age'); 
+    let lastWeightSpan = document.querySelector('.last-weight span');
+    let resetButton = document.querySelector('.reset');
+
+    // 🐲🐲🐲 Functionz 🐲🐲🐲
+
+    // Function to check if user information exists in local storage
+    function userInfoExists() {
+        return localStorage.getItem('userInfo') !== null;
+    }
+
+    // Function to save user information to local storage
+    function saveUserInfo() {
+        let userInfo = {
+            prenom: prenomInput.value,
+            age: ageInput.value,
+            poids: poidsInput.value,
+            taille: tailleInput.value
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }
+
+    // Function to load user information from local storage
+    function loadUserInfo() {
+        let userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
+            userInfo = JSON.parse(userInfo);
+            prenomInput.value = userInfo.prenom;
+            ageInput.value = userInfo.age;
+            poidsInput.value = userInfo.poids;
+            tailleInput.value = userInfo.taille;
+        }
+    }
+
+    // Load user info when the page loads
+    loadUserInfo();
+
+    // Open the popup only if there's no previous information
+    if (!userInfoExists()) {
+        popup.style.display = "block";
+    }
+
+    // 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+    // Event listener for the launch button
+    btn.addEventListener('click', function() {
+        console.log("Button clicked");
+        let poidsValue = parseFloat(poidsInput.value);
+        let tailleValue = parseFloat(tailleInput.value);
+        if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+            // Calculate BMI
+            let bmi = poidsValue / ((tailleValue / 100) ** 2);
+            let bmiCategory;
+            let bmiPhrase;
+            if (bmi > 40) {
+                bmiCategory = "obesite-morbide";
+                bmiPhrase = "Vous êtes en obésité morbide";
+            } else if (bmi > 30) {
+                bmiCategory = "obesite";
+                bmiPhrase = "Vous êtes obèse";
+            } else if (bmi > 25) {
+                bmiCategory = "surpoids";
+                bmiPhrase = "Vous êtes en surpoids";
+            } else if (bmi > 18.5) {
+                bmiCategory = "normal";
+                bmiPhrase = "Vous avez un poids normal";
+            } else {
+                bmiCategory = "maigreur";
+                bmiPhrase = "Vous êtes maigre";
+            }
+            
+            // Update BMI in the DOM
+            let myBmiDiv = document.querySelector('.my-bmi');
+            myBmiDiv.textContent = bmi.toFixed(2);
+            // Remove all previous BMI category classes
+            myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+            // Add current BMI category class
+            myBmiDiv.classList.add(bmiCategory);
+            
+            // Update BMI category and phrase in the DOM
+            let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+            bmiSentencesDiv.textContent = bmiPhrase;
+            
+            // Close the welcome popup
+            popup.style.display = "none";
+
+            // Remove the filter class
+            filter.classList.remove('filter');
+
+            // Calculate age based on date of birth
+            let birthDate = new Date(ageInput.value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let month = today.getMonth() - birthDate.getMonth();
+            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // Save user info to local storage
+            saveUserInfo();
+
+            // Add prenom and age to the first h1 element in myapp
+            let myappH1 = document.querySelector('.myapp h1');
+            myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+            
+            // Add weight to the last-weight span
+            lastWeightSpan.textContent = `${poidsInput.value} kg`;
+        } else {
+            message.innerHTML = `Remplissez tous les champs`;
+            highlightEmptyFields();
+        }
+    });
+
+    // Function to highlight unfilled fields in red
+    function highlightEmptyFields() {
+        if (!prenomInput.value) {
+            prenomInput.classList.add('error');
+        } else {
+            prenomInput.classList.remove('error');
+        }
+        if (!ageInput.value) {
+            ageInput.classList.add('error');
+        } else {
+            ageInput.classList.remove('error');
+        }
+        if (!poidsInput.value) {
+            poidsInput.classList.add('error');
+        } else {
+            poidsInput.classList.remove('error');
+        }
+        if (!tailleInput.value) {
+            tailleInput.classList.add('error');
+        } else {
+            tailleInput.classList.remove('error');
+        }
+    }
+
+    // Event listener for the reset button
+    resetButton.addEventListener('click', function() {
+        // Clear local storage
+        localStorage.clear();
+        // Reload the page
+        location.reload();
+    });
+
+});
+In this modified code, the highlightEmptyFields() function is called when the launch button is clicked and some fields are not filled. This function adds the CSS class error to the input fields that are not filled, making their borders red.
+
+User
+Add all the error messages foor the empty fields instead of jusst one function highlightEmptyFields() {
+    if (!prenomInput.value) {
+        prenomInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre prenom`;
+    } else {
+        prenomInput.classList.remove('error');
+    }
+    if (!ageInput.value) {
+        ageInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre age`;
+    } else {
+        ageInput.classList.remove('error');
+    }
+    if (!poidsInput.value) {
+        poidsInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre poids`;
+    } else {
+        poidsInput.classList.remove('error');
+    }
+    if (!tailleInput.value) {
+        tailleInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre taille`;
+    } else {
+        tailleInput.classList.remove('error');
+    }
+}
+ChatGPT
+Here's the modified JavaScript code with error messages for each empty field:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+    // 🧞🧞🧞 Variable 🧞🧞🧞
+    let result = document.querySelector('.my-bmi')
+    let btn = document.querySelector('.launch')
+    let poidsInput = document.getElementById('poids');
+    let tailleInput = document.getElementById('taille');
+    let popup = document.querySelector('.welcome')
+    let message = document.querySelector('.message')
+    let dailyWeight = document.querySelector('.daily-weigh')
+    let filter = document.querySelector('.filter');
+    let prenomInput = document.getElementById('prenom'); 
+    let ageInput = document.getElementById('age'); 
+    let lastWeightSpan = document.querySelector('.last-weight span');
+    let resetButton = document.querySelector('.reset');
+
+    // 🐲🐲🐲 Functionz 🐲🐲🐲
+
+    // Function to check if user information exists in local storage
+    function userInfoExists() {
+        return localStorage.getItem('userInfo') !== null;
+    }
+
+    // Function to save user information to local storage
+    function saveUserInfo() {
+        let userInfo = {
+            prenom: prenomInput.value,
+            age: ageInput.value,
+            poids: poidsInput.value,
+            taille: tailleInput.value
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }
+
+    // Function to load user information from local storage
+    function loadUserInfo() {
+        let userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
+            userInfo = JSON.parse(userInfo);
+            prenomInput.value = userInfo.prenom;
+            ageInput.value = userInfo.age;
+            poidsInput.value = userInfo.poids;
+            tailleInput.value = userInfo.taille;
+        }
+    }
+
+    // Load user info when the page loads
+    loadUserInfo();
+
+    // Open the popup only if there's no previous information
+    if (!userInfoExists()) {
+        popup.style.display = "block";
+    }
+
+    // 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+    // Event listener for the launch button
+    btn.addEventListener('click', function() {
+        console.log("Button clicked");
+        let poidsValue = parseFloat(poidsInput.value);
+        let tailleValue = parseFloat(tailleInput.value);
+        if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+            // Calculate BMI
+            let bmi = poidsValue / ((tailleValue / 100) ** 2);
+            let bmiCategory;
+            let bmiPhrase;
+            if (bmi > 40) {
+                bmiCategory = "obesite-morbide";
+                bmiPhrase = "Vous êtes en obésité morbide";
+            } else if (bmi > 30) {
+                bmiCategory = "obesite";
+                bmiPhrase = "Vous êtes obèse";
+            } else if (bmi > 25) {
+                bmiCategory = "surpoids";
+                bmiPhrase = "Vous êtes en surpoids";
+            } else if (bmi > 18.5) {
+                bmiCategory = "normal";
+                bmiPhrase = "Vous avez un poids normal";
+            } else {
+                bmiCategory = "maigreur";
+                bmiPhrase = "Vous êtes maigre";
+            }
+            
+            // Update BMI in the DOM
+            let myBmiDiv = document.querySelector('.my-bmi');
+            myBmiDiv.textContent = bmi.toFixed(2);
+            // Remove all previous BMI category classes
+            myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+            // Add current BMI category class
+            myBmiDiv.classList.add(bmiCategory);
+            
+            // Update BMI category and phrase in the DOM
+            let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+            bmiSentencesDiv.textContent = bmiPhrase;
+            
+            // Close the welcome popup
+            popup.style.display = "none";
+
+            // Remove the filter class
+            filter.classList.remove('filter');
+
+            // Calculate age based on date of birth
+            let birthDate = new Date(ageInput.value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let month = today.getMonth() - birthDate.getMonth();
+            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // Save user info to local storage
+            saveUserInfo();
+
+            // Add prenom and age to the first h1 element in myapp
+            let myappH1 = document.querySelector('.myapp h1');
+            myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+            
+            // Add weight to the last-weight span
+            lastWeightSpan.textContent = `${poidsInput.value} kg`;
+        } else {
+            highlightEmptyFields();
+        }
+    });
+
+    // Function to highlight unfilled fields in red and display error messages
+    function highlightEmptyFields() {
+        if (!prenomInput.value) {
+            prenomInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre prenom`;
+        } else {
+            prenomInput.classList.remove('error');
+        }
+        if (!ageInput.value) {
+            ageInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre age`;
+        } else {
+            ageInput.classList.remove('error');
+        }
+        if (!poidsInput.value) {
+            poidsInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre poids`;
+        } else {
+            poidsInput.classList.remove('error');
+        }
+        if (!tailleInput.value) {
+            tailleInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre taille`;
+        } else {
+            tailleInput.classList.remove('error');
+        }
+    }
+
+    // Event listener for the reset button
+    resetButton.addEventListener('click', function() {
+        // Clear local storage
+        localStorage.clear();
+        // Reload the page
+        location.reload();
+    });
+
+});
+In this code, the highlightEmptyFields() function not only adds the error class to unfilled fields to make their borders red but also sets the corresponding error message for each empty field in the message element.
+
+User
+update bmi, bmi category and lastweightspan whenn input in class="new-weight-input"<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.min.css">
+  <title>Weight.</title>
+</head>
+<body>
+  <!-- Popup d'accueil -->
+  <div class="welcome">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="W8.">
+    </div>
+    <h1>Hej!</h1>
+    <p>Avant tout, merci de nous communiquer les informations suivantes :</p>
+    <div class="user-info">
+      <div class="form">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Par ex : Olivier" class="required">
+      </div>
+      <div class="form">
+        <label for="age" >Quand êtes-vous né.e ?</label>
+        <input type="date" id="age" class="required">
+      </div>
+      <div class="form">
+        <label for="poids">Quel est votre poids (en kg) ?</label>
+        <input type="number" id="poids" class="poids" placeholder="Par ex : 53,40 kg" class="required"> 
+      </div>
+      <div class="form">
+        <label for="taille">Quel est votre taille (en cm) ?</label>
+        <input type="number" id="taille" class="taille" placeholder="Par ex : 189 si vous mesurez 1m89" class="required">
+      </div>
+      <button type="button" class="launch">Envoyer</button>
+      <div class="message"> </div>
+    </div>
+  </div>
+  <!-- Petit filtre derrière la popup d'accueil -->
+  <div class="filter"></div>
+  <!-- La partie principale de l'application -->
+  <div class="main">
+    <div class="logo">
+      <img src="images/w8-cropped.png" alt="">
+    </div>
+    <div class="myapp">
+      <!-- Ici vous injectez prénom + âge -->
+      <h1>Hello<span></span><sup></sup></h1>
+      <!-- La boite pour faire apparaître le BMI -->
+      <div class="weight">
+        <div class="bmi">
+          <h2>Votre BMI est de</h2>
+          <div class="my-bmi">
+            0
+          </div>
+          <!-- Ici vous injectez les phrases liées au BMI -->
+          <div class="bmi-sentences"></div>
+        </div>
+        <!-- La boîte pour envoyer un nouveau poids -->
+        <div class="daily-weight">
+          <div class="last-weight">Le dernier poids en notre possession est : <span></span></div>
+          <h2>Entrez votre poids du jour ci-dessous</h2>
+          <div class="kg-container">
+            <input type="number" step="0.1" placeholder="Par ex : 30,54" class="new-weight-input"><span class="kg">kg</span>
+          </div>
+           <button type="button" class="new-weight">Envoyer</button>
+           <button type="button" class="reset">Remettre à 0</button>
+           <div class="message"></div>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Insérez ici votre Chart.js -->
+      </div>
+    </div>
+  </div>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+ChatGPT
+To update the BMI, BMI category, and last weight span when inputting a new weight in the new-weight-input field, you can add an event listener to that input field. Here's the modified JavaScript code:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+    // 🧞🧞🧞 Variable 🧞🧞🧞
+    let result = document.querySelector('.my-bmi')
+    let btn = document.querySelector('.launch')
+    let poidsInput = document.getElementById('poids');
+    let tailleInput = document.getElementById('taille');
+    let popup = document.querySelector('.welcome')
+    let message = document.querySelector('.message')
+    let dailyWeight = document.querySelector('.daily-weight')
+    let filter = document.querySelector('.filter');
+    let prenomInput = document.getElementById('prenom'); 
+    let ageInput = document.getElementById('age'); 
+    let lastWeightSpan = document.querySelector('.last-weight span');
+    let resetButton = document.querySelector('.reset');
+    let newWeightInput = document.querySelector('.new-weight-input');
+
+    // 🐲🐲🐲 Functionz 🐲🐲🐲
+
+    // Function to check if user information exists in local storage
+    function userInfoExists() {
+        return localStorage.getItem('userInfo') !== null;
+    }
+
+    // Function to save user information to local storage
+    function saveUserInfo() {
+        let userInfo = {
+            prenom: prenomInput.value,
+            age: ageInput.value,
+            poids: poidsInput.value,
+            taille: tailleInput.value
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }
+
+    // Function to load user information from local storage
+    function loadUserInfo() {
+        let userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
+            userInfo = JSON.parse(userInfo);
+            prenomInput.value = userInfo.prenom;
+            ageInput.value = userInfo.age;
+            poidsInput.value = userInfo.poids;
+            tailleInput.value = userInfo.taille;
+        }
+    }
+
+    // Load user info when the page loads
+    loadUserInfo();
+
+    // Open the popup only if there's no previous information
+    if (!userInfoExists()) {
+        popup.style.display = "block";
+    }
+
+    // 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+    // Event listener for the launch button
+    btn.addEventListener('click', function() {
+        console.log("Button clicked");
+        let poidsValue = parseFloat(poidsInput.value);
+        let tailleValue = parseFloat(tailleInput.value);
+        if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+            // Calculate BMI
+            let bmi = poidsValue / ((tailleValue / 100) ** 2);
+            let bmiCategory;
+            let bmiPhrase;
+            if (bmi > 40) {
+                bmiCategory = "obesite-morbide";
+                bmiPhrase = "Vous êtes en obésité morbide";
+            } else if (bmi > 30) {
+                bmiCategory = "obesite";
+                bmiPhrase = "Vous êtes obèse";
+            } else if (bmi > 25) {
+                bmiCategory = "surpoids";
+                bmiPhrase = "Vous êtes en surpoids";
+            } else if (bmi > 18.5) {
+                bmiCategory = "normal";
+                bmiPhrase = "Vous avez un poids normal";
+            } else {
+                bmiCategory = "maigreur";
+                bmiPhrase = "Vous êtes maigre";
+            }
+            
+            // Update BMI in the DOM
+            let myBmiDiv = document.querySelector('.my-bmi');
+            myBmiDiv.textContent = bmi.toFixed(2);
+            // Remove all previous BMI category classes
+            myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+            // Add current BMI category class
+            myBmiDiv.classList.add(bmiCategory);
+            
+            // Update BMI category and phrase in the DOM
+            let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+            bmiSentencesDiv.textContent = bmiPhrase;
+            
+            // Close the welcome popup
+            popup.style.display = "none";
+
+            // Remove the filter class
+            filter.classList.remove('filter');
+
+            // Calculate age based on date of birth
+            let birthDate = new Date(ageInput.value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let month = today.getMonth() - birthDate.getMonth();
+            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // Save user info to local storage
+            saveUserInfo();
+
+            // Add prenom and age to the first h1 element in myapp
+            let myappH1 = document.querySelector('.myapp h1');
+            myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+            
+            // Add weight to the last-weight span
+            lastWeightSpan.textContent = `${poidsInput.value} kg`;
+        } else {
+            highlightEmptyFields();
+        }
+    });
+
+    // Event listener for the reset button
+    resetButton.addEventListener('click', function() {
+        // Clear local storage
+        localStorage.clear();
+        // Reload the page
+        location.reload();
+    });
+
+    // Event listener for the new-weight-input field
+    newWeightInput.addEventListener('input', function() {
+        let newWeightValue = parseFloat(newWeightInput.value);
+        if (!isNaN(newWeightValue)) {
+            lastWeightSpan.textContent = `${newWeightValue.toFixed(1)} kg`;
+
+            // Calculate BMI based on new weight
+            let tailleValue = parseFloat(tailleInput.value);
+            if (!isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+                let bmi = newWeightValue / ((tailleValue / 100) ** 2);
+                let bmiCategory;
+                let bmiPhrase;
+                if (bmi > 40) {
+                    bmiCategory = "obesite-morbide";
+                    bmiPhrase = "Vous êtes en obésité morbide";
+                } else if (bmi > 30) {
+                    bmiCategory = "obesite";
+                    bmiPhrase = "Vous êtes obèse";
+                } else if (bmi > 25) {
+                    bmiCategory = "surpoids";
+                    bmiPhrase = "Vous êtes en surpoids";
+                } else if (bmi > 18.5) {
+                    bmiCategory = "normal";
+                    bmiPhrase = "Vous avez un poids normal";
+                } else {
+                    bmiCategory = "maigreur";
+                    bmiPhrase = "Vous êtes maigre";
+                }
+
+                // Update BMI in the DOM
+                let myBmiDiv = document.querySelector('.my-bmi');
+                myBmiDiv.textContent = bmi.toFixed(2);
+                // Remove all previous BMI category classes
+                myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+                // Add current BMI category class
+                myBmiDiv.classList.add(bmiCategory);
+
+                // Update BMI category and phrase in the DOM
+                let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+                bmiSentencesDiv.textContent = bmiPhrase;
+            }
+        }
+    });
+
+    // Function to highlight unfilled fields in red and display error messages
+    function highlightEmptyFields() {
+        let requiredInputs = document.querySelectorAll('.required');
+        requiredInputs.forEach(function(input) {
+            if (!input.value) {
+                input.classList.add('error');
+                message.innerHTML = `Merci de renseigner tous les champs`;
+            } else {
+                input.classList.remove('error');
+            }
+        });
+    }
+
+});
+This code will update the BMI, BMI category, and last weight span whenever a new weight is inputted in the new-weight-input field. Additionally, it will highlight any empty required fields in red and display an error message prompting the user to fill in all the fields.
+
+User
+why is my popup not appearing when infformation is reset to 0? // 🧞🧞🧞 Variable 🧞🧞🧞
+let result = document.querySelector('.my-bmi')
+let btn = document.querySelector('.launch')
+let poidsInput = document.getElementById('poids');
+let tailleInput = document.getElementById('taille');
+let popup = document.querySelector('.welcome')
+let message = document.querySelector('.message')
+let dailyWeight = document.querySelector('.daily-weigh')
+let filter = document.querySelector('.filter');
+let prenomInput = document.getElementById('prenom'); 
+let ageInput = document.getElementById('age'); 
+let lastWeightSpan = document.querySelector('.last-weight span');
+let resetButton = document.querySelector('.reset');
+let newWeightInput = document.querySelector('.new-weight-input');
+
+// 🐲🐲🐲 Functionz 🐲🐲🐲
+
+// Function to check if user information exists in local storage
+function userInfoExists() {
+    return localStorage.getItem('userInfo') !== null;
+}
+
+// Function to save user information to local storage
+function saveUserInfo() {
+    let userInfo = {
+        prenom: prenomInput.value,
+        age: ageInput.value,
+        poids: poidsInput.value,
+        taille: tailleInput.value
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
+// Function to load user information from local storage
+function loadUserInfo() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        userInfo = JSON.parse(userInfo);
+        prenomInput.value = userInfo.prenom;
+        ageInput.value = userInfo.age;
+        poidsInput.value = userInfo.poids;
+        tailleInput.value = userInfo.taille;
+    }
+}
+  // Load user info when the page loads
+  loadUserInfo();
+
+  // Open the popup only if there's no previous information
+  if (!userInfoExists()) {
+      popup.style.display = "none";
+  }
+
+// 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+// Event listener for the launch button
+btn.addEventListener('click', function() {
+    console.log("Button clicked");
+    let poidsValue = parseFloat(poidsInput.value);
+    let tailleValue = parseFloat(tailleInput.value);
+    if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+        // Calculate BMI
+        let bmi = poidsValue / ((tailleValue / 100) ** 2);
+        let bmiCategory;
+        let bmiPhrase;
+        if (bmi > 40) {
+            bmiCategory = "obesite-morbide";
+            bmiPhrase = "Vous êtes en obésité morbide";
+        } else if (bmi > 30) {
+            bmiCategory = "obesite";
+            bmiPhrase = "Vous êtes obèse";
+        } else if (bmi > 25) {
+            bmiCategory = "surpoids";
+            bmiPhrase = "Vous êtes en surpoids";
+        } else if (bmi > 18.5) {
+            bmiCategory = "normal";
+            bmiPhrase = "Vous avez un poids normal";
+        } else {
+            bmiCategory = "maigreur";
+            bmiPhrase = "Vous êtes maigre";
+        }
+        
+        // Update BMI in the DOM
+        let myBmiDiv = document.querySelector('.my-bmi');
+        myBmiDiv.textContent = bmi.toFixed(2);
+        // Remove all previous BMI category classes
+        myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+        // Add current BMI category class
+        myBmiDiv.classList.add(bmiCategory);
+        
+        // Update BMI category and phrase in the DOM
+        let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+        bmiSentencesDiv.textContent = bmiPhrase;
+        
+        // Close the welcome popup
+        popup.style.display = "none";
+
+        // Remove the filter class
+        filter.classList.remove('filter');
+
+        // Calculate age based on date of birth
+        let birthDate = new Date(ageInput.value);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        // Save user info to local storage
+        saveUserInfo();
+
+        // Add prenom and age to the first h1 element in myapp
+        let myappH1 = document.querySelector('.myapp h1');
+        myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+        
+        // Add weight to the last-weight span
+        lastWeightSpan.textContent = `${poidsInput.value} kg`;
+    } else {
+        
+        highlightEmptyFields();
+    }
+});
+
+// Event listener for the new-weight-input field
+newWeightInput.addEventListener('input', function() {
+    let newWeightValue = parseFloat(newWeightInput.value);
+    if (!isNaN(newWeightValue)) {
+        lastWeightSpan.textContent = `${newWeightValue.toFixed(1)} kg`;
+
+        // Calculate BMI based on new weight
+        let tailleValue = parseFloat(tailleInput.value);
+        if (!isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+            let bmi = newWeightValue / ((tailleValue / 100) ** 2);
+            let bmiCategory;
+            let bmiPhrase;
+            if (bmi > 40) {
+                bmiCategory = "obesite-morbide";
+                bmiPhrase = "Vous êtes en obésité morbide";
+            } else if (bmi > 30) {
+                bmiCategory = "obesite";
+                bmiPhrase = "Vous êtes obèse";
+            } else if (bmi > 25) {
+                bmiCategory = "surpoids";
+                bmiPhrase = "Vous êtes en surpoids";
+            } else if (bmi > 18.5) {
+                bmiCategory = "normal";
+                bmiPhrase = "Vous avez un poids normal";
+            } else {
+                bmiCategory = "maigreur";
+                bmiPhrase = "Vous êtes maigre";
+            }
+
+            // Update BMI in the DOM
+            let myBmiDiv = document.querySelector('.my-bmi');
+            myBmiDiv.textContent = bmi.toFixed(2);
+            // Remove all previous BMI category classes
+            myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+            // Add current BMI category class
+            myBmiDiv.classList.add(bmiCategory);
+
+            // Update BMI category and phrase in the DOM
+            let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+            bmiSentencesDiv.textContent = bmiPhrase;
+        }
+    }
+});
+
+// Function to highlight unfilled fields in red
+function highlightEmptyFields() {
+    if (!prenomInput.value) {
+        prenomInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre prenom`;
+    } else {
+        prenomInput.classList.remove('error');
+    }
+    if (!ageInput.value) {
+        ageInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre age`;
+    } else {
+        ageInput.classList.remove('error');
+    }
+    if (!poidsInput.value) {
+        poidsInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre poids`;
+    } else {
+        poidsInput.classList.remove('error');
+    }
+    if (!tailleInput.value) {
+        tailleInput.classList.add('error');
+        message.innerHTML = `Merci de renseigner votre taille`;
+    } else {
+        tailleInput.classList.remove('error');
+    }
+}
+
+
+
+  // Event listener for the reset button
+  resetButton.addEventListener('click', function() {
+    // Clear local storage
+    localStorage.clear();
+    // Reload the page
+    location.reload();
+});
+
+// Load user info when the page loads
+loadUserInfo();
+ChatGPT
+The reason why your popup is not appearing when information is reset to 0 is because you are checking if the user information exists in the local storage and hiding the popup if it does not. However, when you reset the information to 0 and reload the page, the local storage is cleared, and the popup is not displayed again.
+
+To ensure that the popup appears even after the information is reset to 0, you can modify the condition to check if any of the required fields are empty instead of checking if the user information exists in the local storage.
+
+Here's the updated code:
+
+javascript
+Copy code
+document.addEventListener('DOMContentLoaded', function() {
+    // 🧞🧞🧞 Variable 🧞🧞🧞
+    let result = document.querySelector('.my-bmi')
+    let btn = document.querySelector('.launch')
+    let poidsInput = document.getElementById('poids');
+    let tailleInput = document.getElementById('taille');
+    let popup = document.querySelector('.welcome')
+    let message = document.querySelector('.message')
+    let dailyWeight = document.querySelector('.daily-weight')
+    let filter = document.querySelector('.filter');
+    let prenomInput = document.getElementById('prenom'); 
+    let ageInput = document.getElementById('age'); 
+    let lastWeightSpan = document.querySelector('.last-weight span');
+    let resetButton = document.querySelector('.reset');
+    let newWeightInput = document.querySelector('.new-weight-input');
+
+    // 🐲🐲🐲 Functionz 🐲🐲🐲
+
+    // Function to check if any of the required fields are empty
+    function isAnyRequiredFieldEmpty() {
+        return !prenomInput.value || !ageInput.value || !poidsInput.value || !tailleInput.value;
+    }
+
+    // Function to save user information to local storage
+    function saveUserInfo() {
+        let userInfo = {
+            prenom: prenomInput.value,
+            age: ageInput.value,
+            poids: poidsInput.value,
+            taille: tailleInput.value
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }
+
+    // Function to load user information from local storage
+    function loadUserInfo() {
+        let userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
+            userInfo = JSON.parse(userInfo);
+            prenomInput.value = userInfo.prenom;
+            ageInput.value = userInfo.age;
+            poidsInput.value = userInfo.poids;
+            tailleInput.value = userInfo.taille;
+        }
+    }
+
+    // Load user info when the page loads
+    loadUserInfo();
+
+    // Open the popup only if there are empty required fields
+    if (isAnyRequiredFieldEmpty()) {
+        popup.style.display = "block";
+    }
+
+    // 🧚🏼🧚🏼🧚🏼 Eventz 🧚🏼🧚🏼🧚🏼
+
+    // Event listener for the launch button
+    btn.addEventListener('click', function() {
+        console.log("Button clicked");
+        let poidsValue = parseFloat(poidsInput.value);
+        let tailleValue = parseFloat(tailleInput.value);
+        if (!isNaN(poidsValue) && !isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+            // Calculate BMI
+            let bmi = poidsValue / ((tailleValue / 100) ** 2);
+            let bmiCategory;
+            let bmiPhrase;
+            if (bmi > 40) {
+                bmiCategory = "obesite-morbide";
+                bmiPhrase = "Vous êtes en obésité morbide";
+            } else if (bmi > 30) {
+                bmiCategory = "obesite";
+                bmiPhrase = "Vous êtes obèse";
+            } else if (bmi > 25) {
+                bmiCategory = "surpoids";
+                bmiPhrase = "Vous êtes en surpoids";
+            } else if (bmi > 18.5) {
+                bmiCategory = "normal";
+                bmiPhrase = "Vous avez un poids normal";
+            } else {
+                bmiCategory = "maigreur";
+                bmiPhrase = "Vous êtes maigre";
+            }
+            
+            // Update BMI in the DOM
+            let myBmiDiv = document.querySelector('.my-bmi');
+            myBmiDiv.textContent = bmi.toFixed(2);
+            // Remove all previous BMI category classes
+            myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+            // Add current BMI category class
+            myBmiDiv.classList.add(bmiCategory);
+            
+            // Update BMI category and phrase in the DOM
+            let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+            bmiSentencesDiv.textContent = bmiPhrase;
+            
+            // Close the welcome popup
+            popup.style.display = "none";
+
+            // Remove the filter class
+            filter.classList.remove('filter');
+
+            // Calculate age based on date of birth
+            let birthDate = new Date(ageInput.value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let month = today.getMonth() - birthDate.getMonth();
+            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // Save user info to local storage
+            saveUserInfo();
+
+            // Add prenom and age to the first h1 element in myapp
+            let myappH1 = document.querySelector('.myapp h1');
+            myappH1.innerHTML = `Hello ${prenomInput.value}, <span>Vous avez ${age} ans</span>`;
+            
+            // Add weight to the last-weight span
+            lastWeightSpan.textContent = `${poidsInput.value} kg`;
+        } else {
+            highlightEmptyFields();
+        }
+    });
+
+    // Event listener for the new-weight-input field
+    newWeightInput.addEventListener('input', function() {
+        let newWeightValue = parseFloat(newWeightInput.value);
+        if (!isNaN(newWeightValue)) {
+            lastWeightSpan.textContent = `${newWeightValue.toFixed(1)} kg`;
+
+            // Calculate BMI based on new weight
+            let tailleValue = parseFloat(tailleInput.value);
+            if (!isNaN(tailleValue) && prenomInput.value && ageInput.value) {
+                let bmi = newWeightValue / ((tailleValue / 100) ** 2);
+                let bmiCategory;
+                let bmiPhrase;
+                if (bmi > 40) {
+                    bmiCategory = "obesite-morbide";
+                    bmiPhrase = "Vous êtes en obésité morbide";
+                } else if (bmi > 30) {
+                    bmiCategory = "obesite";
+                    bmiPhrase = "Vous êtes obèse";
+                } else if (bmi > 25) {
+                    bmiCategory = "surpoids";
+                    bmiPhrase = "Vous êtes en surpoids";
+                } else if (bmi > 18.5) {
+                    bmiCategory = "normal";
+                    bmiPhrase = "Vous avez un poids normal";
+                } else {
+                    bmiCategory = "maigreur";
+                    bmiPhrase = "Vous êtes maigre";
+                }
+
+                // Update BMI in the DOM
+                let myBmiDiv = document.querySelector('.my-bmi');
+                myBmiDiv.textContent = bmi.toFixed(2);
+                // Remove all previous BMI category classes
+                myBmiDiv.classList.remove('maigreur', 'normal', 'surpoids', 'obesite', 'obesite-morbide');
+                // Add current BMI category class
+                myBmiDiv.classList.add(bmiCategory);
+
+                // Update BMI category and phrase in the DOM
+                let bmiSentencesDiv = document.querySelector('.bmi-sentences');
+                bmiSentencesDiv.textContent = bmiPhrase;
+            }
+        }
+    });
+
+    // Function to highlight unfilled fields in red
+    function highlightEmptyFields() {
+        if (!prenomInput.value) {
+            prenomInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre prenom`;
+        } else {
+            prenomInput.classList.remove('error');
+        }
+        if (!ageInput.value) {
+            ageInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre age`;
+        } else {
+            ageInput.classList.remove('error');
+        }
+        if (!poidsInput.value) {
+            poidsInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre poids`;
+        } else {
+            poidsInput.classList.remove('error');
+        }
+        if (!tailleInput.value) {
+            tailleInput.classList.add('error');
+            message.innerHTML = `Merci de renseigner votre taille`;
+        } else {
+            tailleInput.classList.remove('error');
+        }
+    }
+
+    // Event listener for the reset button
+    resetButton.addEventListener('click', function() {
+        // Clear local storage
+        localStorage.clear();
+        // Reload the page
+        location.reload();
+    });
+
+});
+In this code, the isAnyRequiredFieldEmpty() function is used to check if any of the required fields are empty. If any of the required fields are empty, the popup will be displayed. This ensures that the popup appears even after the information is reset to 0.
+
+User
+why is  this not working? <script>
+    const labels = Utils.days({count: 7});
+    const yValues = [${newWeightValue.toFixed(1)}];
+    
+    new Chart("myChart", {
+      type: "line",
+      data: {
+        labels: xValues,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        scales: {
+          yAxes: [{ticks: {min: 6, max:16}}],
+        }
+      }
+    });
+    </script>
+ChatGPT
+The code you provided is not working because it seems to be incomplete and contains some errors. Here's a corrected version:
+
+html
+Copy code
+<script>
+    const xValues = Utils.days({ count: 7 }); // Assuming Utils.days is a function that returns an array of labels for the last 7 days
+    const yValues = [${newWeightValue.toFixed(1)}]; // This line seems to be incorrect as it is using a template literal inside a script tag. Please provide the correct way to get the new weight value.
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+            }]
+        },
+        options: {
+            legend: { display: false },
+            scales: {
+                yAxes: [{ ticks: { min: 6, max: 16 } }],
+            }
+        }
+    });
+</script>
+Please replace ${newWeightValue.toFixed(1)} with the correct value of newWeightValue that you want to plot on the chart. Additionally, ensure that Utils.days({ count: 7 }) returns an array of labels for the last 7 days. If it's not defined or doesn't exist, you'll need to replace it with the appropriate array of labels.
+
+User
+whhy is my code  not working when using chart.js? var chrt = document.getElementById("chartId");
+    let chart = document.querySelector('.chart');
+      var chartId = new Chart(chrt, {
+         type: 'bar',
+         data: {
+            labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"],
+            datasets: [{
+               data: [newWeightInput],
+            }],
+         },
+      });
+ChatGPT
+The code you provided seems to have a few issues that could be causing it not to work as expected:
+
+querySelector('.chart'): You are selecting an element with the class .chart, but it's unclear if such an element exists in your HTML. Make sure you have an element with the class chart and the correct ID where you want to render the chart.
+newWeightInput: You are passing newWeightInput directly into the data array of the dataset. However, newWeightInput is likely a DOM element, not an array of numbers which is what Chart.js expects for the dataset data. You need to extract the value from newWeightInput before passing it to the chart.
+Here's a corrected version of your code assuming newWeightInput is an input element:
+
+javascript
+Copy code
+// Assuming newWeightInput is an input element
+let newWeightValue = parseFloat(newWeightInput.value); // Extract the value from the input element
+
+let chartId = new Chart(chrt, {
+    type: 'bar',
+    data: {
+        labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"],
+        datasets: [{
+            data: [newWeightValue], // Use the extracted value here
+        }],
+    },
+});
+Make sure to replace newWeightInput with the correct reference to your input element if it's not an input element or if it's located in a different part of your HTML. Also, ensure that the Chart.js library is correctly included in your HTML.
+
+User
+i want xValues to display days, for example: day 1, day 2, day 33... <script src="scripts/main.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+   <script>
+    const xValues = [50,60,70,80,90,100,110];
+    const yValues = [7,8,8,9,9,9,10,11,14,14,15];
+    
+    new Chart("myChart", {
+      type: "line",
+      data: {
+        labels: xValues,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        scales: {
+          yAxes: [{ticks: {min: 6, max:16}}],
+        }
+      }
+    });
+    </script>
+ChatGPT
+If you want the x-axis labels to display days instead of numerical values like 50, 60, 70, etc., you can modify the labels array to contain the day names. Here's how you can do it:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chart Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <script>
+    const xValues = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
+    const yValues = [7, 8, 8, 9, 9, 9, 10];
+
+    new Chart("myChart", {
+      type: "line",
+      data: {
+        labels: xValues,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: yValues
+        }]
+      },
+      options: {
+        legend: { display: false },
+        scales: {
+          yAxes: [{ ticks: { min: 6, max: 16 } }],
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+In this example, I replaced the numerical values in xValues with strings representing the day names. Adjust the array to match your desired day names.
+
+User
+I want yvalues to display an array of weight input
+ChatGPT
+To display an array of weight inputs on the y-axis, you can simply replace the yValues array with your array of weight inputs. Make sure that the yValues array contains numerical values representing the weights. Here's how you can do it:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chart Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <script>
+    const xValues = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
+    const yValues = [7, 8, 8, 9, 9, 9, 10]; // Replace with your array of weight inputs
+
+    new Chart("myChart", {
+      type: "line",
+      data: {
+        labels: xValues,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: yValues
+        }]
+      },
+      options: {
+        legend: { display: false },
+        scales: {
+          yAxes: [{ ticks: { min: Math.min(...yValues), max: Math.max(...yValues) } }],
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+Replace the yValues array with your array of weight inputs. The chart will then display the weight inputs on the y-axis accordingly.
+
+User
+how do i add data from jaavascript to my chart? <script>
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+        datasets: [{
+          label: 'W8',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+ChatGPT
+To dynamically add data to your chart from JavaScript, you can define your chart configuration separately and then update the chart data as needed. Here's how you can do it:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Chart Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <button id="addDataBtn">Add Data</button>
+
+  <script>
+    const ctx = document.getElementById('myChart');
+    let chartData = {
+      labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+      datasets: [{
+        label: 'W8',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    };
+
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Function to add new data to the chart
+    function addData() {
+      const newData = Math.floor(Math.random() * 20); // Generate random data (replace with your data source)
+      chartData.labels.push(`Jour ${chartData.labels.length + 1}`);
+      chartData.datasets[0].data.push(newData);
+      myChart.update(); // Update the chart with new data
+    }
+
+    // Event listener for the button to add data
+    document.getElementById('addDataBtn').addEventListener('click', addData);
+  </script>
+</body>
+</html>
+In this example, the chart is initially created with some static data. When you click the "Add Data" button, a new random data point is generated and added to the chart. You can replace the random data generation with your own data source as needed.
+
+User
+I want to add this result lastWeightSpan.textContent = `${poidsInput.value} kg`; to the data dataset off the chart
+ChatGPT
+To add the value from lastWeightSpan.textContent to the dataset of your chart, you need to update the chart's data and then call the update() method to redraw the chart with the new data. Here's how you can do it:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Chart Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <button id="addDataBtn">Add Data</button>
+
+  <script>
+    const ctx = document.getElementById('myChart');
+    let chartData = {
+      labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+      datasets: [{
+        label: 'W8',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    };
+
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Function to add new data to the chart
+    function addData() {
+      const newData = parseInt(document.querySelector('.last-weight span').textContent); // Get value from lastWeightSpan
+      chartData.labels.push(`Jour ${chartData.labels.length + 1}`);
+      chartData.datasets[0].data.push(newData);
+      myChart.update(); // Update the chart with new data
+    }
+
+    // Event listener for the button to add data
+    document.getElementById('addDataBtn').addEventListener('click', addData);
+  </script>
+</body>
+</html>
+In this example, I've updated the addData() function to get the value from lastWeightSpan.textContent and add it to the dataset of the chart. Then, I call the update() method to redraw the chart with the new data.
+
+User
+index.html:87 Uncaught ReferenceError: chartData is not defined
+    at index.html:87:18
+ChatGPT
+Apologies for the oversight. It seems like there's a scoping issue with the chartData variable. Let's adjust the code to fix this:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Chart Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <button id="addDataBtn">Add Data</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let chartData = {
+        labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+        datasets: [{
+          label: 'W8',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      };
+
+      const ctx = document.getElementById('myChart');
+      const myChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // Function to add new data to the chart
+      function addData() {
+        const newData = parseInt(document.querySelector('.last-weight span').textContent); // Get value from lastWeightSpan
+        chartData.labels.push(`Jour ${chartData.labels.length + 1}`);
+        chartData.datasets[0].data.push(newData);
+        myChart.update(); // Update the chart with new data
+      }
+
+      // Event listener for the button to add data
+      document.getElementById('addDataBtn').addEventListener('click', addData);
+    });
+  </script>
+</body>
+</html>
+Now, the chartData variable is defined within the DOMContentLoaded event listener, ensuring that it's available to the rest of the script. This should resolve the chartData is not defined error.
